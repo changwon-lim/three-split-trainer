@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>3분할 트레이너</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="app">
+<header><div><small>3-SPLIT WORKOUT</small><h1>3분할 트레이너</h1></div><button id="install" class="ghost hide">설치</button></header>
+
+<main>
+<section id="home" class="view on">
+  <div class="card hero"><div><span>다음 루틴</span><h2 id="nextName"></h2><p id="nextSub"></p></div><b id="badge"></b>
+  <button id="start" class="primary">운동 시작</button></div>
+  <div class="two"><div class="card stat">최근 체중<strong id="weight">—</strong>kg</div><div class="card stat">최근 허리<strong id="waist">—</strong>cm</div></div>
+  <div class="card"><h3>컨디션 체크</h3>
+    <label>왼쪽 팔꿈치 <b id="ev">0</b>/10<input id="elbow" type="range" min="0" max="10" value="0"></label>
+    <label>허리 <b id="bv">0</b>/10<input id="back" type="range" min="0" max="10" value="0"></label>
+    <div id="pain" class="warn hide"></div>
+  </div>
+  <div class="card"><div class="row"><h3>최근 운동</h3><button data-go="history">전체</button></div><div id="recent"></div></div>
+</section>
+
+<section id="workout" class="view">
+  <div class="sticky"><button id="backHome" class="ghost">←</button><div><h2 id="wName"></h2><p id="wSub"></p></div><b id="clock">00:00</b></div>
+  <div id="exercises"></div>
+  <div class="card"><label>메모<textarea id="note" rows="3" placeholder="오늘 컨디션, 통증, 기록"></textarea></label></div>
+  <button id="finish" class="primary wide">운동 완료</button>
+</section>
+
+<section id="history" class="view"><div class="title"><h2>운동 기록</h2><button id="clear" class="danger">초기화</button></div><div id="historyList"></div></section>
+
+<section id="body" class="view"><h2>체형 기록</h2>
+  <div class="card two"><label>체중 kg<input id="wi" type="number" step=".1"></label><label>허리 cm<input id="wai" type="number" step=".1"></label><button id="saveBody" class="primary wide">저장</button></div>
+  <div class="card"><div id="bodyList"></div></div>
+</section>
+
+<section id="settings" class="view"><h2>설정</h2>
+  <div class="card"><h3>다음 루틴 선택</h3><div class="stack"><button class="pick" data-r="A">A · Push</button><button class="pick" data-r="B">B · Pull</button><button class="pick" data-r="C">C · Legs + Abs</button></div></div>
+  <div class="card"><h3>백업</h3><div class="stack"><button id="export">JSON 내보내기</button><label class="file">JSON 가져오기<input id="import" type="file" accept="application/json"></label></div></div>
+</section>
+</main>
+
+<nav><button data-go="home" class="active">오늘</button><button data-go="history">기록</button><button data-go="body">체형</button><button data-go="settings">설정</button></nav>
+<div id="rest" class="rest hide"><div>휴식 <b id="restTime">01:30</b></div><div><button data-sec="60">60</button><button data-sec="90">90</button><button data-sec="120">120</button><button id="restStop">정지</button></div></div>
+<div id="toast" class="toast hide"></div>
+</div><script src="app.js"></script></body></html>
