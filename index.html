@@ -36,7 +36,29 @@
 </section>
 
 <section id="settings" class="view"><h2>설정</h2>
+
+  <div class="card">
+    <h3>화면 테마</h3>
+    <div class="meta">다크 / 라이트 / 기기 설정에 맞춰 자동 전환</div>
+    <div class="theme-picker">
+      <button class="theme-btn" data-theme="dark">🌙 다크</button>
+      <button class="theme-btn" data-theme="light">☀️ 라이트</button>
+      <button class="theme-btn" data-theme="system">◐ 시스템</button>
+    </div>
+  </div>
+
   <div class="card"><h3>다음 루틴 선택</h3><div class="stack"><button class="pick" data-r="A">A · Push</button><button class="pick" data-r="B">B · Pull</button><button class="pick" data-r="C">C · Legs + Abs</button></div></div>
+  <div class="card"><h3>운동 구성 편집</h3><div class="meta">운동 추가 · 순서 변경 · 삭제 · 기본값 수정</div>
+    <div class="editor-tabs"><button class="edit-tab active" data-er="A">A · Push</button><button class="edit-tab" data-er="B">B · Pull</button><button class="edit-tab" data-er="C">C · Legs</button></div>
+    <div id="routineEditor"></div><button id="openAddExercise" class="primary wide">+ 운동 추가</button>
+  </div>
+  <div id="addExercisePanel" class="card hide"><div class="row"><h3>새 운동 추가</h3><button id="closeAddExercise" class="ghost">닫기</button></div>
+    <label>운동 이름<input id="newExName" type="text" placeholder="예: 케이블 플라이"></label>
+    <div class="two"><label>세트 수<input id="newExSets" type="number" min="1" max="10" value="3"></label><label>반복수 범위<input id="newExReps" type="text" value="8–12"></label></div>
+    <label>휴식시간(초)<input id="newExRest" type="number" min="15" max="600" step="15" value="90"></label>
+    <div class="check-grid"><label class="checkline"><input id="newExElbow" type="checkbox"> 팔꿈치 통증 주의</label><label class="checkline"><input id="newExBack" type="checkbox"> 허리 통증 주의</label></div>
+    <button id="addExercise" class="primary wide">추가하기</button>
+  </div>
   <div class="card"><h3>백업</h3><div class="stack"><button id="export">JSON 내보내기</button><label class="file">JSON 가져오기<input id="import" type="file" accept="application/json"></label></div></div>
 </section>
 </main>
