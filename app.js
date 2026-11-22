@@ -8,6 +8,7 @@ C:{n:"C. Legs + Abs",s:"하체 · 복근",x:[
 ["레그프레스/핵스쿼트",3,"6–10",150,0,1],["레그익스텐션",3,"10–15",90,0,0],["레그컬",3,"10–15",90,0,0],["불가리안 스플릿스쿼트",2,"8–12",120,0,0],["힙쓰러스트",2,"8–12",120,0,1],["카프레이즈",4,"10–20",75,0,0],["AB슬라이드",3,"8–15",75,1,1],["리버스 크런치",3,"12–20",60,0,0],["중량 크런치",3,"10–15",60,0,1]]}
 };
 const clone=o=>JSON.parse(JSON.stringify(o));
+const safeHTML=v=>String(v??"" ).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const K="threeSplitPWA_v1";
 let S=JSON.parse(localStorage.getItem(K)||"null")||{next:"A",sessions:[],body:[],pain:{elbow:0,back:0},theme:"dark"};
 if(!S.theme) S.theme="dark";
@@ -43,8 +44,8 @@ function last(name){for(let s of S.sessions){if(s.r===cur){let e=s.ex.find(e=>e.
 function renderWorkout(){
  let r=R[cur];q("wName").textContent=r.n;q("wSub").textContent=r.s;q("note").value="";
  q("exercises").innerHTML=r.x.map((e,i)=>{let l=last(e[0]);let lt=l?l.sets.map(s=>`${s.kg||0}kg×${s.rep||0}`).join(" / "):"기록 없음";let risk=(S.pain.elbow>=3&&e[4])||(S.pain.back>=3&&e[5]);return `<section class="ex ${risk?"risk":""}" data-i="${i}">
- <div class="exhead"><div><b>${e[0]}</b><div class="meta">${e[1]}세트 · ${e[2]}회 · 휴식 ${e[3]}초</div></div><button class="mini rbtn" data-sec="${e[3]}">휴식</button></div>
- <div class="last">지난 기록: ${lt}</div><div class="sets">${Array.from({length:e[1]},(_,j)=>row(j+1,l?.sets?.[j]?.kg??"")).join("")}</div>
+ <div class="exhead"><div><b>${safeHTML(e[0])}</b><div class="meta">${e[1]}세트 · ${e[2]}회 · 휴식 ${e[3]}초</div></div><button class="mini rbtn" data-sec="${e[3]}">휴식</button></div>
+ <div class="last">지난 기록: ${lt}</div><div class="workout-set-headers"><span>세트</span><span>kg</span><span>횟수</span><span>RIR</span><span>완료</span></div><div class="sets">${Array.from({length:e[1]},(_,j)=>row(j+1,l?.sets?.[j]?.kg??"")).join("")}</div>
  <div class="exactions"><button class="mini add">+ 세트</button><button class="mini sub">− 세트</button></div></section>`}).join("");bind()
 }
 function row(n,kg=""){return `<div class="set"><span>${n}</span><input class="kg" type="number" step=".5" value="${kg}" placeholder="kg"><input class="rep" type="number" placeholder="회"><input class="rir" type="number" min="0" max="5" value="2"><button class="ok">✓</button></div>`}
@@ -63,7 +64,7 @@ function renderEditor(){
  document.querySelectorAll(".edit-tab").forEach(b=>b.classList.toggle("active",b.dataset.er===editRoutine));
  const list=R[editRoutine].x; q("routineEditor").innerHTML=list.length?list.map((e,i)=>`<div class="editor-item" data-ei="${i}">
    <button class="drag-handle" aria-label="길게 눌러 순서 이동" title="길게 눌러 이동">☰</button>
-   <div class="editor-main"><b>${e[0]}</b><div class="meta">${e[1]}세트 · ${e[2]}회 · 휴식 ${e[3]}초</div><div class="editor-edit"><input class="edSets" type="number" min="1" max="10" value="${e[1]}" title="세트 수"><input class="edReps" type="text" value="${e[2]}" title="반복수"><input class="edRest" type="number" min="15" max="600" step="15" value="${e[3]}" title="휴식 초"></div></div>
+   <div class="editor-main"><b>${safeHTML(e[0])}</b><div class="meta">${e[1]}세트 · ${e[2]}회 · 휴식 ${e[3]}초</div><div class="editor-edit"><input class="edSets" type="number" min="1" max="10" value="${e[1]}" title="세트 수"><input class="edReps" type="text" value="${e[2]}" title="반복수"><input class="edRest" type="number" min="15" max="600" step="15" value="${e[3]}" title="휴식 초"></div></div>
    <div class="editor-actions"><button class="moveUp">↑</button><button class="moveDown">↓</button><button class="deleteEx danger">×</button></div>
  </div>`).join(""):'<div class="meta">운동이 없습니다.</div>'; bindEditor(); bindDragSort();
 }

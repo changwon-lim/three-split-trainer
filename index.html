@@ -28,7 +28,24 @@
   <button id="finish" class="primary wide">운동 완료</button>
 </section>
 
-<section id="history" class="view"><div class="title"><h2>운동 기록</h2><button id="clear" class="danger">초기화</button></div><div id="historyList"></div></section>
+<section id="history" class="view">
+  <div class="title"><div><h2>운동 기록</h2><p class="meta">세트 기록 · 이전 기록 비교 · 성장 추세</p></div><button id="clear" class="danger">초기화</button></div>
+  <div id="weeklySummary" class="history-overview"></div>
+  <section class="card history-progress">
+    <div class="row"><h3>운동별 변화 추세</h3><span class="meta">최근 12회</span></div>
+    <select id="progressExercise" aria-label="분석할 운동 선택"></select>
+    <div class="metric-switch" role="group" aria-label="그래프 지표">
+      <button data-metric="weight" class="active">최고 중량</button>
+      <button data-metric="volume">총 볼륨</button>
+    </div>
+    <div id="progressPlot"></div>
+  </section>
+  <div class="row history-filter-head"><h3>운동 내역</h3><span id="historyCount" class="meta"></span></div>
+  <div class="routine-filter" role="group" aria-label="루틴별 필터">
+    <button data-filter="all" class="active">전체</button><button data-filter="A">Push</button><button data-filter="B">Pull</button><button data-filter="C">Legs</button>
+  </div>
+  <div id="historyList"></div>
+</section>
 
 <section id="body" class="view"><h2>체형 기록</h2>
   <div class="card two"><label>체중 kg<input id="wi" type="number" step=".1"></label><label>허리 cm<input id="wai" type="number" step=".1"></label><button id="saveBody" class="primary wide">저장</button></div>
@@ -66,4 +83,4 @@
 <nav><button data-go="home" class="active">오늘</button><button data-go="history">기록</button><button data-go="body">체형</button><button data-go="settings">설정</button></nav>
 <div id="rest" class="rest hide"><div>휴식 <b id="restTime">01:30</b></div><div><button data-sec="60">60</button><button data-sec="90">90</button><button data-sec="120">120</button><button id="restStop">정지</button></div></div>
 <div id="toast" class="toast hide"></div>
-</div><script src="app.js"></script></body></html>
+</div><script src="app.js"></script><script src="history-v5.js"></script></body></html>
