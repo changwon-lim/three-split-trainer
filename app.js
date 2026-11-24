@@ -14,7 +14,7 @@ let S=JSON.parse(localStorage.getItem(K)||"null")||{next:"A",sessions:[],body:[]
 if(!S.theme) S.theme="dark";
 if(!S.routines) S.routines=clone(DEFAULT_R);
 let R=S.routines;
-let cur=S.next,startAt=0,tick,restTick,remain=0,deferred=null,editRoutine="A";
+let cur=S.next,startAt=0,tick,restTick,remain=0,deferred=null,editRoutine="A",activeExercises=[];
 const q=id=>document.getElementById(id);
 const save=()=>{S.routines=R;localStorage.setItem(K,JSON.stringify(S))};
 const mediaDark=window.matchMedia("(prefers-color-scheme: dark)");
@@ -41,19 +41,154 @@ function go(v){document.querySelectorAll(".view").forEach(x=>x.classList.remove(
 function pain(){let e=+q("elbow").value,b=+q("back").value;q("ev").textContent=e;q("bv").textContent=b;S.pain={elbow:e,back:b};save();let m=[];if(e>=3)m.push("팔꿈치 통증 3 이상: 프레스·풀다운/풀업·컬·푸시다운류는 통증 없는 범위에서만.");if(b>=3)m.push("허리 통증 3 이상: 하체 복합동작·AB슬라이드는 보수적으로.");q("pain").textContent=m.join(" ");q("pain").classList.toggle("hide",!m.length)}
 function home(){let r=R[S.next];q("nextName").textContent=r.n;q("nextSub").textContent=r.s;q("badge").textContent=S.next;let z=S.body[0];q("weight").textContent=z?.w||"—";q("waist").textContent=z?.wa||"—";q("elbow").value=S.pain.elbow;q("back").value=S.pain.back;pain();let a=S.sessions.slice(0,3);q("recent").innerHTML=a.length?a.map(s=>`<div class="item"><b>${R[s.r]?.n||s.r}</b><div class="meta">${dt(s.date)} · ${Math.round((s.sec||0)/60)}분 · ${s.sets||0}세트</div></div>`).join(""):'<div class="meta">아직 기록이 없습니다.</div>'}
 function last(name){for(let s of S.sessions){if(s.r===cur){let e=s.ex.find(e=>e.name===name);if(e)return e}}return null}
+function exerciseCardHTML(e,i){
+ let l=last(e[0]);
+ let lt=l?l.sets.map(s=>`${s.kg||0}kg×${s.rep||0}`).join(" / "):"기록 없음";
+ let risk=(S.pain.elbow>=3&&e[4])||(S.pain.back>=3&&e[5]);
+ return `<section class="ex ${risk?"risk":""}" data-i="${i}">
+ <div class="exhead"><div><b>${safeHTML(e[0])}</b><div class="meta">${e[1]}세트 · ${safeHTML(e[2])}회 · 휴식 ${e[3]}초</div></div><button class="mini rbtn" type="button" data-sec="${e[3]}">휴식</button></div>
+ <div class="last">지난 기록: ${lt}</div><div class="workout-set-headers"><span>세트</span><span>kg</span><span>횟수</span><span>RIR</span><span>완료</span></div><div class="sets">${Array.from({length:e[1]},(_,j)=>row(j+1,l?.sets?.[j]?.kg??"")).join("")}</div>
+ <div class="exactions"><button class="mini add" type="button">+ 세트</button><button class="mini sub" type="button">− 세트</button><button class="mini delete-workout-ex" type="button" aria-label="${safeHTML(e[0])} 종목 삭제">종목 삭제</button></div></section>`;
+}
 function renderWorkout(){
  let r=R[cur];q("wName").textContent=r.n;q("wSub").textContent=r.s;q("note").value="";
- q("exercises").innerHTML=r.x.map((e,i)=>{let l=last(e[0]);let lt=l?l.sets.map(s=>`${s.kg||0}kg×${s.rep||0}`).join(" / "):"기록 없음";let risk=(S.pain.elbow>=3&&e[4])||(S.pain.back>=3&&e[5]);return `<section class="ex ${risk?"risk":""}" data-i="${i}">
- <div class="exhead"><div><b>${safeHTML(e[0])}</b><div class="meta">${e[1]}세트 · ${e[2]}회 · 휴식 ${e[3]}초</div></div><button class="mini rbtn" data-sec="${e[3]}">휴식</button></div>
- <div class="last">지난 기록: ${lt}</div><div class="workout-set-headers"><span>세트</span><span>kg</span><span>횟수</span><span>RIR</span><span>완료</span></div><div class="sets">${Array.from({length:e[1]},(_,j)=>row(j+1,l?.sets?.[j]?.kg??"")).join("")}</div>
- <div class="exactions"><button class="mini add">+ 세트</button><button class="mini sub">− 세트</button></div></section>`}).join("");bind()
+ q("exercises").innerHTML=activeExercises.map((e,i)=>exerciseCardHTML(e,i)).join("");
+ document.querySelectorAll("#exercises .ex").forEach(bindExerciseCard);
+ q("workoutAddPanel").classList.add("hide");
+ q("openWorkoutAdd").classList.remove("hide");
 }
 function row(n,kg=""){return `<div class="set"><span>${n}</span><input class="kg" type="number" step=".5" value="${kg}" placeholder="kg"><input class="rep" type="number" placeholder="회"><input class="rir" type="number" min="0" max="5" value="2"><button class="ok">✓</button></div>`}
-function bind(){document.querySelectorAll(".ok").forEach(b=>b.onclick=()=>{b.classList.toggle("done");if(b.classList.contains("done")){let i=+b.closest(".ex").dataset.i;rest(R[cur].x[i][3])}});document.querySelectorAll(".rbtn").forEach(b=>b.onclick=()=>rest(+b.dataset.sec));document.querySelectorAll(".add").forEach(b=>b.onclick=()=>{let s=b.closest(".ex").querySelector(".sets"),d=document.createElement("div");d.innerHTML=row(s.children.length+1);let el=d.firstElementChild;s.appendChild(el);el.querySelector(".ok").onclick=()=>el.querySelector(".ok").classList.toggle("done")});document.querySelectorAll(".sub").forEach(b=>b.onclick=()=>{let s=b.closest(".ex").querySelector(".sets");if(s.children.length>1)s.lastElementChild.remove()})}
+function bindSetCheck(btn,card){
+ btn.onclick=()=>{
+   btn.classList.toggle("done");
+   if(btn.classList.contains("done")){
+     const ex=activeExercises[Number(card.dataset.i)];
+     if(ex)rest(ex[3]);
+   }
+ };
+}
+function bindExerciseCard(card){
+ card.querySelectorAll(".ok").forEach(b=>bindSetCheck(b,card));
+ card.querySelector(".rbtn").onclick=()=>{
+   const ex=activeExercises[Number(card.dataset.i)];
+   if(ex)rest(ex[3]);
+ };
+ card.querySelector(".add").onclick=()=>{
+   let s=card.querySelector(".sets"),wrap=document.createElement("div");
+   wrap.innerHTML=row(s.children.length+1);
+   const el=wrap.firstElementChild;
+   s.appendChild(el);
+   bindSetCheck(el.querySelector(".ok"),card);
+ };
+ card.querySelector(".sub").onclick=()=>{
+   let s=card.querySelector(".sets");
+   if(s.children.length>1)s.lastElementChild.remove();
+ };
+ card.querySelector(".delete-workout-ex").onclick=()=>openWorkoutDelete(card);
+}
+let pendingWorkoutDeleteCard=null;
+function openWorkoutDelete(card){
+ const idx=Number(card.dataset.i);
+ const exercise=activeExercises[idx];
+ if(!exercise) return;
+ const existing=R[cur].x.some(e=>e[0].toLocaleLowerCase()===exercise[0].toLocaleLowerCase());
+ const entered=[...card.querySelectorAll(".set")].filter(row=>{
+   const weight=row.querySelector(".kg").value;
+   const reps=row.querySelector(".rep").value;
+   return row.querySelector(".ok").classList.contains("done") || weight.trim()!=="" || reps.trim()!=="";
+ });
+ const completed=entered.filter(row=>row.querySelector(".ok").classList.contains("done")).length;
+ pendingWorkoutDeleteCard=card;
+ q("workoutDeleteTitle").textContent=`${exercise[0]} 삭제`;
+ q("workoutDeleteMessage").textContent=entered.length
+   ? `현재 운동에서 입력된 ${entered.length}세트(완료 ${completed}세트)가 제외됩니다. 계속할까요?`
+   : "현재 운동에서 이 종목을 제외할까요?";
+ q("workoutDeletePermanentRow").classList.toggle("hide",!existing);
+ q("workoutDeleteOverlay").querySelector('input[value="today"]').checked=true;
+ q("workoutDeleteOverlay").querySelector('input[value="permanent"]').checked=false;
+ q("workoutDeleteOverlay").classList.remove("hide");
+ q("cancelWorkoutDelete").focus();
+}
+function closeWorkoutDelete(){
+ q("workoutDeleteOverlay").classList.add("hide");
+ pendingWorkoutDeleteCard=null;
+}
+function confirmWorkoutDelete(){
+ const card=pendingWorkoutDeleteCard;
+ if(!card) return;
+ const idx=Number(card.dataset.i),exercise=activeExercises[idx];
+ if(!exercise){closeWorkoutDelete();return;}
+ const permanent=q("workoutDeleteOverlay").querySelector('input[value="permanent"]').checked;
+ if(permanent){
+   const key=exercise[0].toLocaleLowerCase();
+   const routineIndex=R[cur].x.findIndex(e=>e[0].toLocaleLowerCase()===key);
+   if(routineIndex!==-1){R[cur].x.splice(routineIndex,1);save();}
+ }
+ activeExercises.splice(idx,1);
+ card.remove();
+ // Keep the indices used by remaining exercise cards aligned with activeExercises.
+ // Do not recreate cards: that would erase partially entered sets and checks.
+ [...q("exercises").querySelectorAll(".ex")].forEach((el,i)=>el.dataset.i=String(i));
+ closeWorkoutDelete();
+ toast(permanent?"오늘 운동과 루틴에서 삭제했습니다.":"오늘 운동에서만 제외했습니다.");
+}
+function openWorkoutAdd(){
+ q("workoutAddPanel").classList.remove("hide");
+ q("openWorkoutAdd").classList.add("hide");
+ const names=[...new Set(Object.values(R).flatMap(r=>r.x.map(e=>e[0])))];
+ q("workoutExNames").innerHTML=names.map(n=>`<option value="${safeHTML(n)}"></option>`).join("");
+ q("workoutAddCard").scrollIntoView({behavior:"smooth",block:"center"});
+ setTimeout(()=>q("workoutNewName").focus({preventScroll:true}),250);
+}
+function closeWorkoutAdd(){
+ q("workoutAddPanel").classList.add("hide");
+ q("openWorkoutAdd").classList.remove("hide");
+}
+function fillWorkoutExerciseDefaults(){
+ const name=q("workoutNewName").value.trim();
+ const match=Object.values(R).flatMap(r=>r.x).find(e=>e[0].toLocaleLowerCase()===name.toLocaleLowerCase());
+ if(!match)return;
+ q("workoutNewSets").value=match[1];
+ q("workoutNewReps").value=match[2];
+ q("workoutNewRest").value=match[3];
+ q("workoutNewElbow").checked=!!match[4];
+ q("workoutNewBack").checked=!!match[5];
+}
+function addExerciseDuringWorkout(){
+ const name=q("workoutNewName").value.trim();
+ if(!name){toast("운동 이름을 입력하세요.");q("workoutNewName").focus();return;}
+ if(activeExercises.some(e=>e[0].toLocaleLowerCase()===name.toLocaleLowerCase())){
+   toast("이미 있는 운동입니다. 해당 운동에서 + 세트를 이용하세요.");return;
+ }
+ const sets=Math.max(1,Math.min(12,Math.floor(Number(q("workoutNewSets").value)||3)));
+ const reps=q("workoutNewReps").value.trim()||"8–12";
+ const restSeconds=Math.max(15,Math.min(600,Math.floor(Number(q("workoutNewRest").value)||90)));
+ const ex=[name,sets,reps,restSeconds,q("workoutNewElbow").checked?1:0,q("workoutNewBack").checked?1:0];
+ activeExercises.push(ex);
+ const i=activeExercises.length-1;
+ const wrap=document.createElement("div");
+ wrap.innerHTML=exerciseCardHTML(ex,i);
+ const card=wrap.firstElementChild;
+ q("exercises").appendChild(card);
+ bindExerciseCard(card);
+ if(q("workoutSaveRoutine").checked && !R[cur].x.some(e=>e[0].toLocaleLowerCase()===name.toLocaleLowerCase())){
+   R[cur].x.push([...ex]);
+   save();
+ }
+ closeWorkoutAdd();
+ q("workoutNewName").value="";
+ q("workoutNewSets").value="3";
+ q("workoutNewReps").value="8–12";
+ q("workoutNewRest").value="90";
+ q("workoutNewElbow").checked=false;
+ q("workoutNewBack").checked=false;
+ card.scrollIntoView({behavior:"smooth",block:"center"});
+ toast("운동 종목이 추가됐습니다.");
+}
 function begin(){startAt=Date.now();clearInterval(tick);tick=setInterval(()=>q("clock").textContent=clock(Math.floor((Date.now()-startAt)/1000)),1000)}
 function rest(s){clearInterval(restTick);remain=s;q("restTime").textContent=clock(remain);q("rest").classList.remove("hide");restTick=setInterval(()=>{remain--;q("restTime").textContent=clock(remain);if(remain<=0){clearInterval(restTick);navigator.vibrate?.([180,100,180]);toast("휴식 종료");setTimeout(()=>q("rest").classList.add("hide"),800)}},1000)}
 function finish(){
- let ex=[...document.querySelectorAll(".ex")].map(c=>({name:R[cur].x[+c.dataset.i][0],sets:[...c.querySelectorAll(".set")].map(s=>({kg:+s.querySelector(".kg").value||0,rep:+s.querySelector(".rep").value||0,rir:+s.querySelector(".rir").value||0,done:s.querySelector(".ok").classList.contains("done")})).filter(s=>s.done||s.kg||s.rep)}));
+ let ex=[...document.querySelectorAll("#exercises .ex")].map(c=>({name:activeExercises[+c.dataset.i][0],sets:[...c.querySelectorAll(".set")].map(s=>({kg:+s.querySelector(".kg").value||0,rep:+s.querySelector(".rep").value||0,rir:+s.querySelector(".rir").value||0,done:s.querySelector(".ok").classList.contains("done")})).filter(s=>s.done||s.kg||s.rep)}));
  let sets=ex.reduce((n,e)=>n+e.sets.filter(s=>s.done).length,0),sec=startAt?Math.floor((Date.now()-startAt)/1000):0;
  S.sessions.unshift({date:new Date().toISOString(),r:cur,sec,sets,pain:{...S.pain},note:q("note").value.trim(),ex});S.next=next(cur);save();clearInterval(tick);q("clock").textContent="00:00";home();go("home");toast(`완료! 다음은 ${R[S.next].n}`)
 }
@@ -133,8 +268,17 @@ function bindDragSort(){
  });
 }
 function addExercise(){const name=q("newExName").value.trim();if(!name)return toast("운동 이름을 입력하세요.");R[editRoutine].x.push([name,Math.max(1,+q("newExSets").value||3),q("newExReps").value.trim()||"8–12",Math.max(15,+q("newExRest").value||90),q("newExElbow").checked?1:0,q("newExBack").checked?1:0]);save();q("newExName").value="";q("addExercisePanel").classList.add("hide");renderEditor();toast("운동을 추가했습니다.")}
-q("start").onclick=()=>{cur=S.next;renderWorkout();go("workout");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));begin()};
+q("start").onclick=()=>{cur=S.next;activeExercises=clone(R[cur].x);renderWorkout();go("workout");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));begin()};
 q("finish").onclick=finish;q("backHome").onclick=()=>{clearInterval(tick);go("home")};
+q("openWorkoutAdd").onclick=openWorkoutAdd;
+q("quickWorkoutAdd").onclick=openWorkoutAdd;
+q("closeWorkoutAdd").onclick=closeWorkoutAdd;
+q("confirmWorkoutAdd").onclick=addExerciseDuringWorkout;
+q("cancelWorkoutDelete").onclick=closeWorkoutDelete;
+q("confirmWorkoutDelete").onclick=confirmWorkoutDelete;
+q("workoutDeleteOverlay").addEventListener("click",e=>{if(e.target===q("workoutDeleteOverlay"))closeWorkoutDelete()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!q("workoutDeleteOverlay").classList.contains("hide"))closeWorkoutDelete()});
+q("workoutNewName").addEventListener("change",fillWorkoutExerciseDefaults);
 q("elbow").oninput=pain;q("back").oninput=pain;
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 document.querySelectorAll(".pick").forEach(b=>b.onclick=()=>{S.next=b.dataset.r;save();home();toast(`다음 루틴: ${R[S.next].n}`)});

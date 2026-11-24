@@ -134,3 +134,43 @@ nav{background:var(--nav-bg)!important;border-color:var(--line)!important}
 
 .workout-set-headers{display:grid;grid-template-columns:26px 1fr 1fr .8fr 36px;gap:6px;color:var(--muted);font-size:10px;text-align:center;margin:10px 0 6px}
 .stat strong{color:var(--text)!important}
+
+/* v6: workout-time exercise additions */
+.sticky-name{flex:1;min-width:0}
+.sticky-name h2{font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quick-add{white-space:nowrap;background:var(--accent)!important;color:var(--accent-text)!important;padding:9px 11px;font-size:12px}
+.workout-add-card{border-style:dashed!important}
+.workout-add-card .meta{margin:10px 0 14px;line-height:1.5}
+.secondary-action{border:1px solid var(--accent)!important;color:var(--accent)!important;background:var(--surface-deep)!important}
+.save-routine-option{margin:16px 0 14px;border-color:var(--accent)!important;color:var(--text)!important}
+#workoutAddPanel .row button{padding:8px 12px;font-size:12px}
+#workoutAddPanel input{min-width:0}
+#workoutAddPanel label{font-size:13px}
+@media(max-width:440px){
+ .sticky{gap:6px}
+ .sticky-name h2{font-size:16px}
+ .sticky-name p{font-size:11px}
+ .quick-add{padding:8px 9px;font-size:11px}
+ #clock{font-size:12px}
+}
+
+/* v7: remove an exercise mid-workout, with optional removal from the saved routine */
+.exactions{flex-wrap:wrap}
+.delete-workout-ex{margin-left:auto;background:transparent!important;color:var(--danger)!important;border:1px solid var(--danger)!important}
+.workout-delete-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.63);display:flex;align-items:center;justify-content:center;padding:18px}
+.workout-delete-dialog{background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:22px;max-width:470px;width:100%;box-shadow:0 20px 65px rgba(0,0,0,.35)}
+.workout-delete-dialog h3{font-size:20px;margin:0 0 10px;overflow-wrap:anywhere}
+.workout-delete-message{font-size:14px;line-height:1.55;color:var(--text);margin:0 0 18px}
+.delete-scope-group{border:0;padding:0;margin:0}
+.delete-scope-group legend{font-size:12px;color:var(--muted);font-weight:800;margin-bottom:8px}
+.delete-option{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;color:var(--text)!important;background:var(--surface-deep)}
+.delete-option input{width:18px;height:18px;flex:none;margin:3px 0 0;accent-color:var(--accent)}
+.delete-option span{display:grid;gap:4px}
+.delete-option strong{font-size:13px;color:var(--text)}
+.delete-option small{font-size:12px;color:var(--muted)}
+.delete-past-note{font-size:12px;line-height:1.45;color:var(--muted);margin:15px 0}
+.workout-delete-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.workout-delete-actions button{padding:12px 8px}
+.delete-confirm{background:var(--danger)!important;color:#fff!important}
+/* Leave enough scroll room to reach Finish even when the rest timer is open. */
+#workout #finish{margin-bottom:145px}

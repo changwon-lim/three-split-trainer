@@ -22,8 +22,28 @@
 </section>
 
 <section id="workout" class="view">
-  <div class="sticky"><button id="backHome" class="ghost">←</button><div><h2 id="wName"></h2><p id="wSub"></p></div><b id="clock">00:00</b></div>
+  <div class="sticky"><button id="backHome" class="ghost">←</button><div class="sticky-name"><h2 id="wName"></h2><p id="wSub"></p></div><button id="quickWorkoutAdd" type="button" class="quick-add">+ 종목</button><b id="clock">00:00</b></div>
   <div id="exercises"></div>
+  <div class="card workout-add-card" id="workoutAddCard">
+    <button id="openWorkoutAdd" class="secondary-action wide" type="button">+ 운동 중에 종목 추가</button>
+    <div id="workoutAddPanel" class="hide">
+      <div class="row"><h3>운동 추가</h3><button id="closeWorkoutAdd" class="ghost" type="button">닫기</button></div>
+      <p class="meta">현재 운동에 바로 추가됩니다. 기존에 입력한 세트는 유지됩니다.</p>
+      <label>운동 이름<input id="workoutNewName" type="text" list="workoutExNames" autocomplete="off" placeholder="예: 케이블 플라이" maxlength="80"></label>
+      <datalist id="workoutExNames"></datalist>
+      <div class="two">
+        <label>세트 수<input id="workoutNewSets" type="number" min="1" max="12" value="3" inputmode="numeric"></label>
+        <label>반복수 목표<input id="workoutNewReps" type="text" value="8–12" placeholder="예: 8–12" maxlength="30"></label>
+      </div>
+      <label>휴식시간 (초)<input id="workoutNewRest" type="number" min="15" max="600" step="15" value="90" inputmode="numeric"></label>
+      <div class="check-grid">
+        <label class="checkline"><input id="workoutNewElbow" type="checkbox"> 팔꿈치 통증 주의</label>
+        <label class="checkline"><input id="workoutNewBack" type="checkbox"> 허리 통증 주의</label>
+      </div>
+      <label class="checkline save-routine-option"><input id="workoutSaveRoutine" type="checkbox" checked> 앞으로도 이 루틴에 저장</label>
+      <button id="confirmWorkoutAdd" class="primary wide" type="button">현재 운동에 추가</button>
+    </div>
+  </div>
   <div class="card"><label>메모<textarea id="note" rows="3" placeholder="오늘 컨디션, 통증, 기록"></textarea></label></div>
   <button id="finish" class="primary wide">운동 완료</button>
 </section>
@@ -79,6 +99,20 @@
   <div class="card"><h3>백업</h3><div class="stack"><button id="export">JSON 내보내기</button><label class="file">JSON 가져오기<input id="import" type="file" accept="application/json"></label></div></div>
 </section>
 </main>
+
+<div id="workoutDeleteOverlay" class="workout-delete-overlay hide" role="dialog" aria-modal="true" aria-labelledby="workoutDeleteTitle" aria-describedby="workoutDeleteMessage">
+  <div class="workout-delete-dialog">
+    <h3 id="workoutDeleteTitle">운동 종목 삭제</h3>
+    <p id="workoutDeleteMessage" class="workout-delete-message"></p>
+    <fieldset class="delete-scope-group">
+      <legend>삭제 범위</legend>
+      <label class="delete-option"><input type="radio" name="workoutDeleteScope" value="today" checked> <span><strong>오늘 운동에서만 제외</strong><small>다음번 루틴에는 그대로 표시</small></span></label>
+      <label class="delete-option" id="workoutDeletePermanentRow"><input type="radio" name="workoutDeleteScope" value="permanent"> <span><strong>이 루틴에서도 삭제</strong><small>다음번 같은 루틴에서도 표시하지 않음</small></span></label>
+    </fieldset>
+    <p class="delete-past-note">이미 저장된 지난 운동 기록은 삭제되지 않습니다.</p>
+    <div class="workout-delete-actions"><button id="cancelWorkoutDelete" type="button" class="ghost">취소</button><button id="confirmWorkoutDelete" type="button" class="delete-confirm">종목 삭제</button></div>
+  </div>
+</div>
 
 <nav><button data-go="home" class="active">오늘</button><button data-go="history">기록</button><button data-go="body">체형</button><button data-go="settings">설정</button></nav>
 <div id="rest" class="rest hide"><div>휴식 <b id="restTime">01:30</b></div><div><button data-sec="60">60</button><button data-sec="90">90</button><button data-sec="120">120</button><button id="restStop">정지</button></div></div>
