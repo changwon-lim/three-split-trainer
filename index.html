@@ -2,15 +2,15 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0e1119"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="트레이너"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
-<title>3분할 트레이너</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="base-ui.css"><link rel="stylesheet" href="oneui-fold7.css">
+<meta name="theme-color" content="#090d16"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="트레이너"><link rel="apple-touch-icon" href="app-icon-v11-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>3분할 트레이너</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="base-ui.css"><link rel="stylesheet" href="ios-fold7.css">
 </head>
 <body><div class="app">
-<header class="app-header"><div class="app-brand"><div class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg></div><div><small>MY WORKOUT</small><h1>트레이너</h1></div></div><button id="install" class="ghost hide">앱 설치</button></header>
+<header class="app-header"><div class="app-brand"><div class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg></div><div><small>TRAINING STUDIO</small><h1>트레이너</h1></div></div><button id="install" class="ghost hide">앱 설치</button></header>
 
 <main>
 <section id="home" class="view on">
-  <div class="home-intro"><div class="overline">YOUR PLAN</div><div class="intro-row"><h2>오늘의 운동</h2><span id="iosTodayDate" class="date-pill"></span></div><p>오늘의 목표를 기록하고 변화를 확인하세요.</p></div>
+  <div class="home-intro"><div class="overline">YOUR PLAN</div><div class="intro-row"><h2>오늘의 운동</h2><span id="iosTodayDate" class="date-pill"></span></div><p>한 세트씩 쌓아가는 나의 변화.</p></div>
   <div class="card hero"><div class="hero-copy"><span class="hero-kicker">다음 운동</span><h2 id="nextName"></h2><p id="nextSub"></p></div><b id="badge"></b>
   <button id="start" class="primary">운동 시작 <span class="cta-arrow" aria-hidden="true">↗</span></button></div>
   <div class="two metrics-grid"><div class="card stat"><span class="stat-label"><span class="stat-icon" aria-hidden="true">◉</span> 최근 체중</span><div class="stat-reading"><strong id="weight">—</strong><span>kg</span></div></div><div class="card stat"><span class="stat-label"><span class="stat-icon" aria-hidden="true">⌁</span> 최근 허리</span><div class="stat-reading"><strong id="waist">—</strong><span>cm</span></div></div></div>
@@ -77,11 +77,11 @@
 
   <div class="card">
     <h3>화면 테마</h3>
-    <div class="meta">갤럭시의 화면 설정을 그대로 따르거나 직접 변경할 수 있어요.</div>
+    <div class="meta">다크·라이트 모드를 선택하거나 기기 설정을 따릅니다.</div>
     <div class="theme-picker">
       <button class="theme-btn" data-theme="dark">🌙 다크</button>
       <button class="theme-btn" data-theme="light">☀️ 라이트</button>
-      <button class="theme-btn" data-theme="system">◐ 기기 설정</button>
+      <button class="theme-btn" data-theme="system">◐ 시스템</button>
     </div>
   </div>
 

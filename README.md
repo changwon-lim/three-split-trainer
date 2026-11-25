@@ -1,20 +1,26 @@
-# 3분할 트레이너 v10 — Galaxy Z Fold7 / One UI 스타일
+# 3분할 트레이너 PWA v11 — iOS 스타일 × 갤럭시 Z 폴드7 레이아웃
 
-## 변경 내용
-- iOS 기준이었던 레이아웃·타이포그래피를 Android / Samsung One UI에 어울리는 색상과 시스템 글꼴로 수정
-- 갤럭시 Z 폴드7 커버 화면(접힌 상태): 세로 스크롤과 엄지 조작에 맞춘 단일 열, 하단 4탭 내비게이션
-- 갤럭시 Z 폴드7 메인 화면(펼친 상태): 반응형 왼쪽 탐색 레일 + 홈 화면 2열 + 운동 종목 카드 2열 + 설정 2열
-- 시스템 글꼴 사용: 기기에 설치된 기본 서체(`system-ui`)를 우선 적용. SamsungOne/Roboto/Noto Sans KR 폴백
-- 다크 / 라이트 / 기기 설정 자동 추종 유지
-- 기존 기능 보존: A/B/C 루틴, 운동 중 종목 추가/삭제, 드래그 재정렬, 세트별 kg·횟수·RIR, 휴식 타이머, 상세 기록, 그래프, 백업/복원
-- 원래 운동 데이터의 `localStorage` 키(`threeSplitPWA_v1`) 유지. 동일 사이트 도메인/경로면 데이터가 계속 보임
-- 오프라인 캐시 이름 변경: `3split-v10-oneui-fold7`
+## 새로운 점
+- 시각 디자인: iOS 네이티브 앱 느낌 (반투명 플로팅 탭, 그라디언트 운동 카드, 둥근 카드, 가독성 높은 숫자)
+- 폴더블 레이아웃: 접힌 화면은 하단 플로팅 탭 / 펼친 화면은 반투명 왼쪽 탭 + 2열 카드
+- 갤럭시 시스템 글꼴 사용 (Apple의 글꼴을 별도로 제공하거나 배포하지 않음)
+- 신규 버전 아이콘 파일명 `app-icon-v11-*.png`으로 Chrome이 아이콘 업데이트를 식별할 수 있게 함
+- Android 홈 화면용 maskable 아이콘 추가
+- 기존 운동 기록 및 사용자 설정 localStorage 키 `threeSplitPWA_v1` 유지
+- 저장된 루틴, 그래프, 세트 입력, 운동 중 종목 추가/삭제, 백업 기능 유지
 
-## GitHub Pages 배포
-1. 앱 `설정 > JSON 내보내기`에서 운동 기록 백업
-2. ZIP 압축을 풀고 **모든 파일을 repository 루트에** 업로드
-3. GitHub에서 commit 후 GitHub Pages 빌드 완료 확인
-4. 이전 버전의 `ios-native.css`는 더 이상 사용하지 않으며, 이번 버전의 `base-ui.css`, `oneui-fold7.css`가 반드시 필요
-5. Android Chrome/Samsung Internet에서 홈 화면에 추가/앱 설치. 업데이트가 늦으면 앱을 완전히 종료 후 다시 실행
+## Github Pages 교체 순서
+1. 기존 앱에서 설정 > JSON 내보내기로 **먼저 백업**
+2. 이번 압축을 해제해 GitHub Pages의 기존 저장소 루트에 모든 파일 업로드. 반드시 새 `ios-fold7.css`, `app-icon-v11-192.png`, `app-icon-v11-512.png`, `app-icon-maskable-v11-512.png` 포함.
+3. Commit 이후 **같은 주소**로 기존 앱을 다시 열어 새 버전 확인.
+4. 앱 아이콘은 Chrome에 설치된 앱의 메뉴에서 **앱 업데이트 검토**가 나타나면 승인. 바로 바뀌지 않아도 삭제는 마지막 수단.
+5. `manifest.json`의 위치, GitHub Pages URL, PWA `start_url`/`scope`는 유지해야 기존 설치 앱 연속성이 보장됨.
 
-기록은 브라우저/앱 로컬 저장소에만 저장됩니다. 다른 브라우저나 앱 설치 컨테이너에서는 공유되지 않을 수 있으므로 JSON 백업을 주기적으로 보관하세요.
+## 운동 기록과 앱 제거
+운동기록은 Chrome의 해당 사이트 로컬 저장소에 저장됩니다. 같은 주소로 업데이트하면 대개 기록이 유지됩니다.
+Android에서 앱 제거 후 데이터가 남을 수는 있지만 브라우저 사이트 데이터가 삭제되면 복구할 수 없습니다.
+Google 계정/Chrome Sync는 이 localStorage 운동기록을 자동으로 복원해 주는 백업 기능이 아닙니다.
+
+## 로컬 테스트
+`python -m http.server 8080` 이후 `http://localhost:8080` 접속.
+HTTPS GitHub Pages에서 PWA로 설치할 수 있습니다.
