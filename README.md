@@ -68,3 +68,12 @@ PWA 설치를 위해 HTTPS 또는 localhost에서 실행하세요.
 - 다른 운동의 세트 입력값은 화면을 재생성하지 않아 그대로 유지
 - 이미 완료해 저장한 이전 세션 기록은 수정되지 않음
 - 루틴에서 삭제한 운동도 `설정 > 운동 구성 편집`에서 다시 추가할 수 있음
+
+
+## v8 — iOS-inspired native-style redesign
+- iOS 27 Liquid Glass 디자인 언어를 참고한 시각 디자인(웹 PWA이며 실제 SwiftUI 네이티브 앱은 아님)
+- 플로팅 반투명 탭 바, iPhone 안전 영역 적용, 시스템 글꼴, 새 아이콘
+- 다크/라이트/시스템 테마 유지, 새 설치 시 시스템 모드 기본값
+- 운동 중 세트 입력·운동 추가/삭제·휴식 타이머·상세 기록/그래프 모두 유지
+- 기존 `threeSplitPWA_v1` localStorage 키 유지, 저장된 루틴/운동기록 계속 사용
+- 신규 `ios-native.css`를 반드시 GitHub Pages에 함께 업로드

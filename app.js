@@ -10,8 +10,8 @@ C:{n:"C. Legs + Abs",s:"하체 · 복근",x:[
 const clone=o=>JSON.parse(JSON.stringify(o));
 const safeHTML=v=>String(v??"" ).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const K="threeSplitPWA_v1";
-let S=JSON.parse(localStorage.getItem(K)||"null")||{next:"A",sessions:[],body:[],pain:{elbow:0,back:0},theme:"dark"};
-if(!S.theme) S.theme="dark";
+let S=JSON.parse(localStorage.getItem(K)||"null")||{next:"A",sessions:[],body:[],pain:{elbow:0,back:0},theme:"system"};
+if(!S.theme) S.theme="system";
 if(!S.routines) S.routines=clone(DEFAULT_R);
 let R=S.routines;
 let cur=S.next,startAt=0,tick,restTick,remain=0,deferred=null,editRoutine="A",activeExercises=[];
@@ -25,7 +25,7 @@ function applyTheme(){
   const t=resolvedTheme();
   document.documentElement.setAttribute("data-theme",t);
   const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute("content",t==="dark"?"#0b1020":"#f4f7fb");
+  if(meta) meta.setAttribute("content",t==="dark"?"#090d16":"#f3f5fa");
   document.querySelectorAll(".theme-btn").forEach(b=>b.classList.toggle("active",b.dataset.theme===S.theme));
 }
 function setTheme(t){
@@ -190,7 +190,7 @@ function rest(s){clearInterval(restTick);remain=s;q("restTime").textContent=cloc
 function finish(){
  let ex=[...document.querySelectorAll("#exercises .ex")].map(c=>({name:activeExercises[+c.dataset.i][0],sets:[...c.querySelectorAll(".set")].map(s=>({kg:+s.querySelector(".kg").value||0,rep:+s.querySelector(".rep").value||0,rir:+s.querySelector(".rir").value||0,done:s.querySelector(".ok").classList.contains("done")})).filter(s=>s.done||s.kg||s.rep)}));
  let sets=ex.reduce((n,e)=>n+e.sets.filter(s=>s.done).length,0),sec=startAt?Math.floor((Date.now()-startAt)/1000):0;
- S.sessions.unshift({date:new Date().toISOString(),r:cur,sec,sets,pain:{...S.pain},note:q("note").value.trim(),ex});S.next=next(cur);save();clearInterval(tick);q("clock").textContent="00:00";home();go("home");toast(`완료! 다음은 ${R[S.next].n}`)
+ S.sessions.unshift({date:new Date().toISOString(),r:cur,sec,sets,pain:{...S.pain},note:q("note").value.trim(),ex});S.next=next(cur);save();clearInterval(tick);clearInterval(restTick);q("rest").classList.add("hide");q("clock").textContent="00:00";home();go("home");toast(`완료! 다음은 ${R[S.next].n}`)
 }
 function hist(){q("historyList").innerHTML=S.sessions.length?S.sessions.map(s=>`<div class="card"><b>${R[s.r]?.n||s.r}</b><div class="meta">${dt(s.date)} · ${Math.round((s.sec||0)/60)}분 · ${s.sets||0}세트</div>${s.note?`<p>${s.note}</p>`:""}</div>`).join(""):'<div class="card meta">아직 기록이 없습니다.</div>'}
 function body(){q("bodyList").innerHTML=S.body.length?S.body.map(x=>`<div class="item"><b>${dt(x.date)}</b><div class="meta">체중 ${x.w||"—"}kg · 허리 ${x.wa||"—"}cm</div></div>`).join(""):'<div class="meta">아직 기록이 없습니다.</div>'}
@@ -295,3 +295,5 @@ applyTheme();
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;q("install").classList.remove("hide")});q("install").onclick=async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;q("install").classList.add("hide")}};
 if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 home();body();hist();renderEditor();
+const iosDate=q("iosTodayDate");
+if(iosDate) iosDate.textContent=new Intl.DateTimeFormat("ko-KR",{month:"long",day:"numeric",weekday:"short"}).format(new Date());
