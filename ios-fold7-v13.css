@@ -1,0 +1,112 @@
+/* v11 / iOS-inspired aesthetics + Galaxy Z Fold 7 responsive layout.
+   Uses the device's installed system font. Does not bundle Apple fonts. */
+:root { --fold-rail-width:78px; }
+html,body,button,input,textarea,select,option,.file {
+  font-family:system-ui,-apple-system,"Roboto","Noto Sans KR",sans-serif!important;
+}
+html { text-size-adjust:100%; -webkit-text-size-adjust:100%; }
+body { font-weight:400; letter-spacing:-.012em; }
+/* Maintain native-like hierarchy on Android rather than emulating proprietary font files. */
+.app-header h1,.home-intro h2,.screen-title,.title h2,.hero h2{font-weight:700!important;letter-spacing:-.035em!important}
+.section-heading h3,.recent-card h3,#settings>.card h3,.history-progress h3{font-weight:700!important}
+button,.file{font-weight:600!important}
+.primary,.quick-add,#finish,.mini,.pick,.theme-btn,.edit-tab{font-weight:650!important}
+.stat-reading strong,.overview-value,.history-metric strong,#clock,#restTime,.set input{font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1}
+/* Preserve iOS glass and card appearances at all sizes. */
+nav { background:var(--glass)!important; border:1px solid var(--glass-border)!important; backdrop-filter:blur(36px) saturate(165%)!important; -webkit-backdrop-filter:blur(36px) saturate(165%)!important; }
+.sticky{background:var(--glass)!important; border:1px solid var(--glass-border)!important; backdrop-filter:blur(28px) saturate(160%)!important}
+.card,.ex{background:var(--surface)!important;border:1px solid var(--line)!important}
+.hero.card{background:linear-gradient(123deg,#204a9b 0%,#245dc0 52%,#6087e7 100%)!important;color:white!important;border:1px solid rgba(230,239,255,.32)!important}
+.hero h2{color:white!important}
+.hero .primary{background:white!important;color:#194a9b!important}
+.hero #badge{background:rgba(255,255,255,.16)!important;color:#fff!important;border:1px solid rgba(255,255,255,.27)!important}
+/* Cover screen: compact, comfortable thumb targets. */
+@media(max-width:410px){
+  .app{padding-inline:14px}
+  .hero.card{min-height:218px;padding:19px!important}
+  .hero h2{font-size:31px!important}
+  .set{grid-template-columns:24px minmax(0,1fr) minmax(0,1fr) minmax(0,.72fr) 38px;gap:5px}
+  .set .ok{min-width:38px;width:38px}
+  .workout-set-headers{grid-template-columns:24px minmax(0,1fr) minmax(0,1fr) minmax(0,.72fr) 38px;gap:5px}
+  nav {width:calc(100% - 22px)!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important}
+  nav button {min-height:56px}
+}
+/* Unfolded Galaxy Z Fold 7: iPadOS-like translucent navigation sidebar. */
+@media(min-width:690px) and (min-height:520px){
+  .app{max-width:1260px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top,0px)) 25px 48px 106px;min-height:100dvh}
+  .app-header{padding-top:4px;padding-bottom:24px}
+  nav {
+    left:12px!important;top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;
+    width:74px!important;height:auto!important;max-height:calc(100dvh - 36px);
+    display:flex!important;flex-direction:column!important;gap:8px!important;
+    padding:9px!important;border-radius:28px!important;
+    box-shadow:0 14px 44px rgba(0,0,0,.17)!important;
+  }
+  nav button{width:54px!important;flex:none;min-height:64px!important;gap:4px;border-radius:20px!important;font-size:11px!important}
+  nav button svg{width:23px;height:23px}
+  .sticky{top:8px}
+  .rest{left:calc(50% + 39px)!important;bottom:22px!important;transform:translateX(-50%)!important;max-width:490px!important;width:calc(100% - 130px)!important}
+  .workout-delete-overlay{padding-left:90px}
+  .workout-delete-dialog{max-width:510px!important;border-radius:28px!important;padding:24px!important}
+  #workout #finish{margin-bottom:28px}
+}
+@media(min-width:715px) and (min-height:520px){
+  #home.on{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:14px;align-items:start}
+  #home>.home-intro{grid-column:1/-1}
+  #home>.hero{grid-column:1;grid-row:2;align-self:stretch}
+  #home>.metrics-grid{grid-column:2;grid-row:2;align-self:stretch;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  #home>.metrics-grid .stat{height:100%;min-height:0;justify-content:space-between;padding:14px 10px!important;min-width:0}
+  #home>.metrics-grid .stat-reading{display:block}
+  #home>.metrics-grid .stat-reading strong{font-size:26px}
+  #home>.metrics-grid .stat-reading span{margin-left:4px}
+  #home>.condition-card{grid-column:1;grid-row:3}
+  #home>.recent-card{grid-column:2;grid-row:3}
+  #home .card{margin:7px 0!important}
+  #home>.hero{min-height:230px}
+  #exercises{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;column-gap:12px}
+  #exercises .ex{margin:7px 0!important;padding:15px!important;min-width:0}
+  #exercises .set{grid-template-columns:22px minmax(0,1fr) minmax(0,1fr) minmax(0,.70fr) 36px;gap:4px}
+  #exercises .set input{min-width:0;padding:6px 1px!important;font-size:14px!important}
+  #exercises .set .ok{min-width:36px;width:36px}
+  #exercises .workout-set-headers{grid-template-columns:22px 1fr 1fr .70fr 36px;gap:4px}
+  #settings.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px;align-items:start}
+  #settings .page-overline,#settings .screen-title,#settings .screen-subtitle{grid-column:1/-1}
+  #settings>.card:has(#routineEditor),#settings #addExercisePanel{grid-column:1/-1}
+  #body.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px;align-items:start}
+  #body>.page-overline,#body>.screen-title,#body>.screen-subtitle{grid-column:1/-1}
+  #history>.history-overview{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:1000px){
+  .app{padding-inline:128px 32px}
+  #exercises .ex{padding:19px!important}
+  #exercises .set{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr) 42px;gap:7px}
+  #exercises .set .ok{min-width:42px;width:42px}
+  #exercises .workout-set-headers{grid-template-columns:28px 1fr 1fr .8fr 42px;gap:7px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* v13: Exact top/bottom alignment for the hero card and the two metric cards.
+   Avoid height:100% on grandchildren: it overflows when card margins are present. */
+@media (min-width:715px) and (min-height:520px) {
+  #home > .hero,
+  #home > .metrics-grid {
+    align-self: stretch !important;
+    height: auto !important;
+    margin-block: 7px !important;
+    box-sizing: border-box;
+    min-height: 0;
+  }
+  #home > .metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    align-items: stretch !important;
+    gap: 9px;
+  }
+  #home > .metrics-grid > .stat {
+    height: auto !important;
+    min-height: 0 !important;
+    align-self: stretch !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
+}
