@@ -84,3 +84,17 @@ nav { background:var(--glass)!important; border:1px solid var(--glass-border)!im
   #exercises .workout-set-headers{grid-template-columns:28px 1fr 1fr .8fr 42px;gap:7px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* v12: Match the unfolded home metric cards to the Push/Pull/Legs start card. */
+@media (min-width:715px) and (min-height:520px) {
+  #home > .metrics-grid {
+    align-self: stretch;
+    min-height: 0;
+    margin: 7px 0 !important;
+  }
+  #home > .metrics-grid > .stat {
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+}
