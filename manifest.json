@@ -1,12 +1,12 @@
 {
   "name": "3분할 트레이너",
   "short_name": "트레이너",
-  "description": "Push/Pull/Legs+Abs 운동 기록 PWA",
+  "description": "갤럭시 Z 폴드7 화면에 맞춘 3분할 운동 기록 PWA",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#090d16",
-  "theme_color": "#090d16",
+  "background_color": "#101218",
+  "theme_color": "#101218",
   "lang": "ko-KR",
   "icons": [
     {

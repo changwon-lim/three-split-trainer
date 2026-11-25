@@ -2,16 +2,16 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="트레이너"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
-<title>3분할 트레이너</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="ios-native.css">
+<meta name="theme-color" content="#0e1119"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="트레이너"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>3분할 트레이너</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="base-ui.css"><link rel="stylesheet" href="oneui-fold7.css">
 </head>
 <body><div class="app">
-<header class="app-header"><div class="app-brand"><div class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg></div><div><small>TRAINING STUDIO</small><h1>트레이너</h1></div></div><button id="install" class="ghost hide">앱 설치</button></header>
+<header class="app-header"><div class="app-brand"><div class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg></div><div><small>MY WORKOUT</small><h1>트레이너</h1></div></div><button id="install" class="ghost hide">앱 설치</button></header>
 
 <main>
 <section id="home" class="view on">
-  <div class="home-intro"><div class="overline">YOUR PLAN</div><div class="intro-row"><h2>오늘의 운동</h2><span id="iosTodayDate" class="date-pill"></span></div><p>오늘의 한 세트가 내일의 변화를 만듭니다.</p></div>
-  <div class="card hero"><div class="hero-copy"><span class="hero-kicker">NEXT SESSION</span><h2 id="nextName"></h2><p id="nextSub"></p></div><b id="badge"></b>
+  <div class="home-intro"><div class="overline">YOUR PLAN</div><div class="intro-row"><h2>오늘의 운동</h2><span id="iosTodayDate" class="date-pill"></span></div><p>오늘의 목표를 기록하고 변화를 확인하세요.</p></div>
+  <div class="card hero"><div class="hero-copy"><span class="hero-kicker">다음 운동</span><h2 id="nextName"></h2><p id="nextSub"></p></div><b id="badge"></b>
   <button id="start" class="primary">운동 시작 <span class="cta-arrow" aria-hidden="true">↗</span></button></div>
   <div class="two metrics-grid"><div class="card stat"><span class="stat-label"><span class="stat-icon" aria-hidden="true">◉</span> 최근 체중</span><div class="stat-reading"><strong id="weight">—</strong><span>kg</span></div></div><div class="card stat"><span class="stat-label"><span class="stat-icon" aria-hidden="true">⌁</span> 최근 허리</span><div class="stat-reading"><strong id="waist">—</strong><span>cm</span></div></div></div>
   <div class="card condition-card"><div class="section-heading"><div><span class="section-eyebrow">CHECK IN</span><h3>오늘의 컨디션</h3></div><span class="section-symbol" aria-hidden="true">♡</span></div>
@@ -49,7 +49,7 @@
   <button id="finish" class="primary wide">운동 완료</button>
 </section>
 
-<section id="history" class="view"><div class="overline page-overline">MY PROGRESS</div>
+<section id="history" class="view"><div class="overline page-overline">TRAINING LOG</div>
   <div class="title"><div><h2>운동 기록</h2><p class="meta">세트 기록 · 이전 기록 비교 · 성장 추세</p></div><button id="clear" class="danger">초기화</button></div>
   <div id="weeklySummary" class="history-overview"></div>
   <section class="card history-progress">
@@ -68,20 +68,20 @@
   <div id="historyList"></div>
 </section>
 
-<section id="body" class="view"><div class="overline page-overline">BODY METRICS</div><h2 class="screen-title">체형 기록</h2><p class="screen-subtitle">변화는 숫자보다 추세로 확인하세요.</p>
+<section id="body" class="view"><div class="overline page-overline">BODY TRACKING</div><h2 class="screen-title">체형 기록</h2><p class="screen-subtitle">변화는 숫자보다 추세로 확인하세요.</p>
   <div class="card two"><label>체중 kg<input id="wi" type="number" step=".1"></label><label>허리 cm<input id="wai" type="number" step=".1"></label><button id="saveBody" class="primary wide">저장</button></div>
   <div class="card"><div id="bodyList"></div></div>
 </section>
 
-<section id="settings" class="view"><div class="overline page-overline">PERSONALIZE</div><h2 class="screen-title">설정</h2><p class="screen-subtitle">나에게 맞게 운동 환경을 설정하세요.</p>
+<section id="settings" class="view"><div class="overline page-overline">PREFERENCES</div><h2 class="screen-title">설정</h2><p class="screen-subtitle">나에게 맞게 운동 환경을 설정하세요.</p>
 
   <div class="card">
     <h3>화면 테마</h3>
-    <div class="meta">다크 / 라이트 / 기기 설정에 맞춰 자동 전환</div>
+    <div class="meta">갤럭시의 화면 설정을 그대로 따르거나 직접 변경할 수 있어요.</div>
     <div class="theme-picker">
       <button class="theme-btn" data-theme="dark">🌙 다크</button>
       <button class="theme-btn" data-theme="light">☀️ 라이트</button>
-      <button class="theme-btn" data-theme="system">◐ 시스템</button>
+      <button class="theme-btn" data-theme="system">◐ 기기 설정</button>
     </div>
   </div>
 

@@ -25,7 +25,7 @@ function applyTheme(){
   const t=resolvedTheme();
   document.documentElement.setAttribute("data-theme",t);
   const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute("content",t==="dark"?"#090d16":"#f3f5fa");
+  if(meta) meta.setAttribute("content",t==="dark"?"#101218":"#f5f6fa");
   document.querySelectorAll(".theme-btn").forEach(b=>b.classList.toggle("active",b.dataset.theme===S.theme));
 }
 function setTheme(t){

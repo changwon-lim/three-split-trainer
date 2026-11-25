@@ -1,0 +1,162 @@
+/* Galaxy Z Fold7 / Samsung One UI-inspired responsive layer.
+   No Samsung-proprietary font files are embedded or redistributed.
+   system-ui uses the phone's chosen Android system font. */
+:root{
+  --bg:#101218;--surface:#1c1f28;--surface-2:#272b36;--surface-deep:#181b24;
+  --text:#f2f3f7;--muted:#a6abb8;--line:#343845;
+  --accent:#8bb5ff;--accent-text:#061831;--danger:#ff8392;
+  --warning-bg:#342c1b;--warning-text:#ffde9c;
+  --glass:rgba(25,28,37,.96);--glass-border:rgba(255,255,255,.08);
+  --nav-bg:rgba(21,24,32,.96);--sticky-bg:rgba(17,19,26,.96);
+  --shadow:0 5px 20px rgba(0,0,0,.12);--tab-bg:#1c1f28;
+  --oneui-font:system-ui,"One UI Sans","SamsungOne","SamsungOneKorean","Roboto","Noto Sans KR",sans-serif;
+  color-scheme:dark;
+}
+html[data-theme="light"]{
+  --bg:#f5f6fa;--surface:#ffffff;--surface-2:#eef1f6;--surface-deep:#f7f8fb;
+  --text:#1d2531;--muted:#687483;--line:#e0e5ee;
+  --accent:#256de4;--accent-text:#ffffff;--danger:#d94963;
+  --warning-bg:#fff5db;--warning-text:#7e5414;
+  --glass:rgba(255,255,255,.96);--glass-border:rgba(24,36,55,.07);
+  --nav-bg:rgba(250,251,254,.97);--sticky-bg:rgba(245,246,250,.97);
+  --shadow:0 4px 16px rgba(29,45,65,.045);--tab-bg:#f3f6fa;
+  color-scheme:light;
+}
+html,body,button,input,textarea,select,option,.file{
+  font-family:var(--oneui-font)!important;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{font-size:15px;letter-spacing:-.008em;line-height:1.54;background:var(--bg)!important;color:var(--text)!important;font-synthesis:weight}
+body:before{display:none!important}
+button,input,textarea,select{touch-action:manipulation}
+button{font-weight:600!important;letter-spacing:-.006em!important}
+.app{max-width:1120px;min-height:100dvh;min-height:100vh;margin-inline:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 20px calc(105px + env(safe-area-inset-bottom,0px))}
+.app-header{padding:9px 2px 22px;min-height:76px}
+.brand-symbol{border-radius:15px;background:#2876eb;box-shadow:none;width:46px;height:46px}
+.app-header small{font-size:11px;letter-spacing:.025em!important;color:var(--muted)!important;font-weight:600}
+.app-header h1{font-size:22px;font-weight:750!important;letter-spacing:-.026em}
+.home-intro h2,.screen-title,.title h2{font-size:clamp(29px,4vw,37px);font-weight:750!important;letter-spacing:-.035em;line-height:1.2}
+.home-intro p,.screen-subtitle{font-size:14px;line-height:1.55;color:var(--muted)}
+.overline,.section-eyebrow,.page-overline{font-size:11px;letter-spacing:.065em!important;font-weight:750!important;color:var(--accent)}
+.card,.ex{border-radius:23px!important;background:var(--surface)!important;box-shadow:var(--shadow)!important;border:1px solid var(--line)!important}
+.card{padding:21px!important;margin:12px 0!important}
+.hero.card{background:var(--surface)!important;color:var(--text)!important;box-shadow:var(--shadow)!important;border:1px solid var(--line)!important;min-height:240px;padding:24px!important;position:relative}
+.hero.card:before{content:"";position:absolute;inset:auto -26px -90px auto;width:235px;height:235px;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 16%,transparent),transparent 74%);border:0;box-shadow:none;z-index:-1}
+.hero .hero-kicker{color:var(--accent)!important;letter-spacing:.055em!important;font-size:12px}
+.hero h2{color:var(--text)!important;font-weight:750!important;font-size:clamp(29px,5vw,42px);line-height:1.2;letter-spacing:-.027em;margin:9px 0 7px}
+.hero p{color:var(--muted)!important;font-size:14px}
+.hero #badge{width:55px;height:55px;border-radius:19px;border:0;background:color-mix(in srgb,var(--accent) 13%,var(--surface-2))!important;color:var(--accent)!important;box-shadow:none;font-size:25px}
+.hero .primary{background:var(--accent)!important;color:var(--accent-text)!important;box-shadow:none!important;min-height:52px;border-radius:17px!important}
+.primary{font-weight:700!important;border-radius:17px!important;min-height:50px;box-shadow:none!important}
+.card h3,.section-heading h3,.recent-card h3,.history-progress h3{letter-spacing:-.025em;font-weight:700!important}
+.stat-reading strong,.overview-value,.history-metric strong,.set input,#clock,#restTime{font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1;font-weight:700}
+.stat-reading strong{font-size:30px;letter-spacing:-.015em}
+.metrics-grid .stat{min-height:118px;border-radius:22px!important}
+.date-pill{border-radius:13px;font-size:12px;padding:8px 12px}
+input,textarea,select{font-size:16px!important;border-radius:14px!important;background:var(--surface-deep)!important;border:1px solid var(--line)!important;color:var(--text)!important}
+input:focus,textarea:focus,select:focus{outline:2px solid color-mix(in srgb,var(--accent) 60%,transparent);outline-offset:0}
+label,.condition-card label{letter-spacing:0;font-weight:550}
+.meta,.last,.field-description,.screen-subtitle,.history-note{font-weight:450;letter-spacing:0;line-height:1.55}
+.inline-link{color:var(--accent)!important}
+/* One UI bottom navigation for the narrow cover display */
+nav{position:fixed!important;bottom:0!important;left:0!important;transform:none!important;width:100%!important;z-index:80;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:0!important;padding:7px 12px calc(7px + env(safe-area-inset-bottom,0px))!important;background:var(--nav-bg)!important;border:0!important;border-top:1px solid var(--line)!important;box-shadow:0 -5px 16px rgba(0,0,0,.04)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+nav button{min-height:55px;border-radius:16px!important;gap:4px;font-size:11px!important;font-weight:650!important}
+nav button svg{width:23px;height:23px}
+nav button.active{color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 11%,transparent)!important;box-shadow:none!important}
+/* One UI workout top app bar and compact, thumb-friendly set controls */
+.sticky{top:calc(env(safe-area-inset-top,0px) + 4px);border:1px solid var(--line)!important;border-radius:19px;background:var(--sticky-bg)!important;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.sticky-name h2{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.quick-add{font-size:13px!important;min-height:41px;border-radius:13px!important;font-weight:700!important}
+#clock{font-size:13px;border-radius:12px}
+.ex{padding:19px!important;margin:12px 0!important;min-width:0}
+.exhead b{font-size:16px;font-weight:700;letter-spacing:-.012em}
+.exhead .meta{font-size:12px}
+.last{font-size:12px;background:var(--surface-deep)!important;border-color:var(--line)!important}
+.workout-set-headers{font-size:11px;letter-spacing:0;text-transform:none}
+.set{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) minmax(0,.78fr) 42px;gap:6px;margin:9px 0}
+.set input{min-width:0;height:46px;font-size:16px!important;padding:6px 2px!important;font-weight:650;letter-spacing:0}
+.set .ok{width:42px;height:46px;min-width:42px;border-radius:13px!important}
+.set .ok.done{background:var(--accent)!important;color:var(--accent-text)!important}
+.exactions{gap:8px}
+.mini{min-height:40px;border-radius:12px!important;font-size:12px!important}
+.history-overview .overview-item{border:1px solid var(--line);border-radius:19px;box-shadow:none}
+.history-session{border:1px solid var(--line)!important;border-radius:22px;box-shadow:var(--shadow)}
+.history-session-title{font-weight:700}
+.metric-switch,.routine-filter,.theme-picker,.editor-tabs{border-radius:15px;background:var(--surface-2)!important}
+.theme-btn,.edit-tab{font-size:13px!important;min-height:42px}
+.theme-btn.active,.edit-tab.active,.metric-switch button.active,.routine-filter button.active{background:var(--surface)!important;color:var(--text)!important}
+.pick{min-height:48px;border-radius:15px!important;background:var(--surface-2)!important}
+.editor-item{gap:12px;min-width:0}
+.drag-handle{min-height:46px}
+.workout-delete-overlay{background:rgba(0,0,0,.5)!important}
+.workout-delete-dialog{background:var(--surface)!important;border-radius:25px!important}
+.rest{bottom:calc(79px + env(safe-area-inset-bottom,0px))!important;max-width:550px;width:calc(100% - 24px)!important;border:1px solid var(--line)!important;border-radius:19px!important;background:var(--surface)!important;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.rest button{font-size:13px;min-height:36px}
+.toast{font-size:14px}
+/* Cover display: compact width, full-width actions, no horizontal scrolling. */
+@media(max-width:410px){
+ .app{padding-left:14px;padding-right:14px}
+ .app-header{padding-bottom:19px}
+ .card{padding:17px!important}
+ .hero.card{padding:20px!important;min-height:218px}
+ .hero h2{font-size:32px}
+ .set{grid-template-columns:24px minmax(0,1fr) minmax(0,1fr) minmax(0,.72fr) 38px;gap:5px}
+ .set .ok{min-width:38px;width:38px}
+ .workout-set-headers{grid-template-columns:24px 1fr 1fr .72fr 38px;gap:5px}
+ .sticky-name h2{font-size:15px}
+ .quick-add{padding:8px 9px!important}
+ .metrics-grid .stat{padding:16px 12px!important}
+ .stat-reading strong{font-size:28px}
+}
+/* Open-screen Z Fold-style responsive mode (depending on browser viewport size). */
+@media(min-width:690px) and (min-height:520px){
+ .app{max-width:1180px;margin-left:84px;margin-right:auto;padding:23px 30px 45px;min-height:100dvh}
+ .app-header{padding-top:5px}
+ nav{left:0!important;top:0!important;bottom:0!important;width:82px!important;height:100dvh!important;transform:none!important;border:0!important;border-right:1px solid var(--line)!important;padding:calc(28px + env(safe-area-inset-top,0px)) 8px calc(22px + env(safe-area-inset-bottom,0px))!important;display:flex;flex-direction:column;justify-content:flex-start;gap:14px;border-radius:0!important;box-shadow:none!important}
+ nav:before{content:"";height:46px;display:block;background:transparent}
+ nav button{width:64px;min-height:66px;flex:none;border-radius:17px!important;font-size:12px!important;gap:5px}
+ nav button svg{width:26px;height:26px}
+ .rest{left:calc(50% + 40px)!important;bottom:22px!important;max-width:490px;width:calc(100% - 120px)!important;transform:translateX(-50%)}
+ .sticky{top:7px}
+ .workout-delete-overlay{padding-left:96px}
+ .workout-delete-dialog{max-width:520px!important;border-radius:24px!important;padding:25px!important}
+ #workout #finish{margin-bottom:32px}
+}
+@media(min-width:715px) and (min-height:520px){
+ #home.on{display:grid;grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr);column-gap:15px;align-items:start}
+ #home>.home-intro{grid-column:1/-1}
+ #home>.hero{grid-column:1;grid-row:2;align-self:stretch}
+ #home>.metrics-grid{grid-column:2;grid-row:2;align-self:stretch;gap:9px;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #home>.metrics-grid .stat{min-height:0;height:100%;justify-content:space-between;padding:16px 11px!important;min-width:0}
+ #home>.metrics-grid .stat-reading{display:block}
+ #home>.metrics-grid .stat-reading strong{font-size:27px}
+ #home>.metrics-grid .stat-reading span{margin-left:4px}
+ #home>.condition-card{grid-column:1;grid-row:3}
+ #home>.recent-card{grid-column:2;grid-row:3}
+ #home .card{margin:7px 0!important}
+ #home>.hero{min-height:225px}
+ #home .hero h2{font-size:34px}
+ #exercises{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;column-gap:13px}
+ #exercises .ex{margin:7px 0!important;padding:15px!important}
+ #exercises .set{grid-template-columns:21px minmax(0,1fr) minmax(0,1fr) minmax(0,.68fr) 35px;gap:3px}
+ #exercises .set input{font-size:14px!important;padding:6px 1px!important}
+ #exercises .set .ok{min-width:35px;width:35px}
+ #exercises .workout-set-headers{grid-template-columns:21px 1fr 1fr .68fr 35px;gap:3px}
+ #settings.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px;align-items:start}
+ #settings .page-overline,#settings .screen-title,#settings .screen-subtitle{grid-column:1/-1}
+ #settings>.card:has(#routineEditor){grid-column:1/-1}
+ #settings>.card:has(#addExercisePanel){grid-column:1/-1}
+ #settings #addExercisePanel{grid-column:1/-1}
+ #body.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px;align-items:start}
+ #body>.page-overline,#body>.screen-title,#body>.screen-subtitle{grid-column:1/-1}
+ #history>.history-overview{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:1000px){
+ .app{margin-left:max(84px,calc((100vw - 1180px)/2 + 84px));padding-inline:32px}
+ #home>.hero{min-height:255px}
+ #exercises .ex{padding:19px!important}
+ #exercises .set{grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr) 42px;gap:7px}
+ #exercises .set .ok{min-width:42px;width:42px}
+ #exercises .workout-set-headers{grid-template-columns:28px 1fr 1fr .8fr 42px;gap:7px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

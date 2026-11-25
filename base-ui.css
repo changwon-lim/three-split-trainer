@@ -1,0 +1,311 @@
+/* iOS-inspired interface: visual layer only; existing workout logic and storage untouched. */
+:root {
+  --bg:#090d16;
+  --surface:#171b27;
+  --surface-2:#222838;
+  --surface-deep:#111622;
+  --text:#f7f9ff;
+  --muted:#9da9be;
+  --line:rgba(255,255,255,.092);
+  --accent:#73a6ff;
+  --accent-text:#03132b;
+  --danger:#ff667b;
+  --warning-bg:rgba(255,178,45,.12);
+  --warning-text:#ffce7d;
+  --glass:rgba(28,34,49,.74);
+  --glass-border:rgba(255,255,255,.2);
+  --nav-bg:rgba(28,34,49,.74);
+  --sticky-bg:rgba(9,13,22,.84);
+  --shadow:0 14px 36px rgba(0,0,0,.18);
+  --tab-bg:#171d29;
+  color-scheme:dark;
+}
+html[data-theme="light"] {
+  --bg:#f3f5fa;
+  --surface:rgba(255,255,255,.94);
+  --surface-2:#ebeff8;
+  --surface-deep:#f4f6fa;
+  --text:#17243a;
+  --muted:#737f92;
+  --line:rgba(25,40,66,.085);
+  --accent:#2467df;
+  --accent-text:#ffffff;
+  --danger:#e14358;
+  --warning-bg:#fff3d8;
+  --warning-text:#815800;
+  --glass:rgba(255,255,255,.78);
+  --glass-border:rgba(255,255,255,.92);
+  --nav-bg:rgba(255,255,255,.74);
+  --sticky-bg:rgba(243,245,250,.88);
+  --shadow:0 10px 35px rgba(36,68,105,.055);
+  --tab-bg:#f9fbff;
+  color-scheme:light;
+}
+html {font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif; -webkit-tap-highlight-color:transparent}
+html,body {min-height:100%;overscroll-behavior-y:none}
+body {background:var(--bg)!important; color:var(--text)!important; font-size:15px; letter-spacing:-.025em; -webkit-font-smoothing:antialiased;}
+body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(circle at 85% -5%,rgba(66,119,255,.13),transparent 43%),radial-gradient(circle at 5% 70%,rgba(119,102,224,.05),transparent 46%)}
+.app{max-width:780px;min-height:100vh;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 20px calc(120px + env(safe-area-inset-bottom,0px));}
+.app-header{padding:6px 2px 27px;min-height:64px}
+.app-brand{display:flex;align-items:center;gap:11px}
+.brand-symbol{height:42px;width:42px;flex:none;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#82b4ff,#2868e8);color:#fff;box-shadow:0 8px 24px rgba(35,112,255,.25)}
+.brand-symbol svg{width:26px;height:26px}
+.app-header small{font-size:10px;color:var(--muted)!important;letter-spacing:.15em;font-weight:750}
+.app-header h1{font-size:21px;font-weight:800;letter-spacing:-.045em;margin:0;line-height:1.25}
+#install{font-size:12px;padding:10px 12px}
+.view{animation:arrive .22s cubic-bezier(.2,.7,.2,1) both}
+@keyframes arrive{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.overline,.section-eyebrow{font-size:10px;color:var(--accent);letter-spacing:.16em;font-weight:850}
+.home-intro{padding:3px 4px 4px}
+.intro-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.home-intro h2,.screen-title,.title h2{font-size:32px;letter-spacing:-.065em;line-height:1.1;font-weight:850;margin:5px 0 8px}
+.home-intro p,.screen-subtitle{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.5}
+.date-pill{color:var(--muted);font-size:12px;font-weight:750;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 11px;white-space:nowrap}
+.card,.ex{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:24px!important;box-shadow:var(--shadow);}
+.card{padding:20px!important;margin:13px 0!important}
+.hero.card{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:1fr 56px;gap:10px;background:linear-gradient(121deg,#244d9c 1%,#255cbd 55%,#567fe4 100%)!important;color:#fff!important;border:1px solid rgba(207,226,255,.27)!important;box-shadow:0 18px 45px rgba(24,70,156,.22);padding:24px!important;min-height:230px}
+.hero.card:before{content:"";position:absolute;right:-82px;top:-114px;width:315px;height:315px;border-radius:50%;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 43px rgba(255,255,255,.045),0 0 0 86px rgba(255,255,255,.035);z-index:-1}
+.hero-kicker{font-size:10px;letter-spacing:.17em!important;color:rgba(255,255,255,.8)!important;font-weight:800}
+.hero h2{font-size:37px;line-height:1.08;letter-spacing:-.06em;margin:11px 0 8px;font-weight:850}
+.hero p{font-size:14px;color:rgba(255,255,255,.76)!important;margin:0}
+.hero #badge{width:55px;height:55px;border-radius:19px;background:rgba(255,255,255,.17)!important;border:1px solid rgba(255,255,255,.25);color:#fff!important;box-shadow:inset 0 1px rgba(255,255,255,.26);backdrop-filter:blur(14px);font-size:25px}
+.primary{background:var(--accent)!important;color:var(--accent-text)!important;box-shadow:0 5px 14px rgba(24,99,212,.12);border-radius:16px!important;padding:14px 17px!important;font-size:15px;min-height:48px;font-weight:800!important}
+.hero .primary{margin-top:15px;background:#fff!important;color:#1d4c9d!important;display:flex;align-items:center;justify-content:center;gap:8px;border:0!important;box-shadow:0 12px 25px rgba(7,36,94,.2);min-height:52px}
+.cta-arrow{font-size:19px}
+.metrics-grid{gap:12px}
+.metrics-grid .stat{min-height:124px;display:flex;flex-direction:column;justify-content:space-between;padding:17px!important}
+.stat-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:650;color:var(--muted)!important}
+.stat-icon{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:9px;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);font-size:16px;font-weight:850}
+.stat-reading{display:flex;align-items:baseline;gap:5px;margin-top:9px}
+.stat-reading strong{font-size:31px;font-weight:800;letter-spacing:-.06em;line-height:1.1;color:var(--text)!important}
+.stat-reading span{color:var(--muted);font-size:12px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.section-heading h3{font-size:20px;margin-top:3px;letter-spacing:-.045em}
+.section-symbol{width:34px;height:34px;display:grid;place-items:center;color:var(--accent);background:var(--surface-2);border-radius:12px;font-size:20px}
+.condition-card label{font-size:13px;color:var(--text)!important;font-weight:650;display:block;margin:18px 0}
+.condition-card label b{float:right;background:var(--surface-2);padding:4px 8px;border-radius:8px;margin-top:-3px;color:var(--accent)}
+input[type="range"]{height:27px;margin-top:13px;accent-color:var(--accent)}
+input,textarea,select{font-size:16px;border-radius:13px!important;outline:none;min-height:43px}
+input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);border-color:var(--accent)!important}
+input[type="checkbox"],input[type="radio"]{min-height:0;accent-color:var(--accent)}
+.recent-card .row{margin-bottom:12px}
+.recent-card h3{font-size:20px;letter-spacing:-.045em;margin-top:4px}
+.inline-link{background:none!important;border:0!important;box-shadow:none!important;color:var(--accent)!important;font-size:13px;padding:8px 1px!important}
+.item{padding:14px 3px!important;border-color:var(--line)!important}
+.item b{font-weight:800}
+.page-overline{margin:7px 4px 1px}
+.screen-title{margin:6px 3px 5px}
+.screen-subtitle{margin:0 3px 20px}
+.title{align-items:start;gap:10px}
+.title h2{margin-bottom:5px}
+.title .meta{line-height:1.5}
+/* Frosted floating iOS tab bar */
+nav{position:fixed!important;bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;left:50%!important;transform:translateX(-50%)!important;width:min(510px,calc(100% - 30px))!important;display:grid;grid-template-columns:repeat(4,1fr);z-index:80;border-radius:28px!important;padding:7px!important;background:var(--glass)!important;border:1px solid var(--glass-border)!important;box-shadow:0 14px 48px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.13);backdrop-filter:blur(36px) saturate(180%);-webkit-backdrop-filter:blur(36px) saturate(180%)}
+nav button{background:transparent!important;border:0!important;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted)!important;border-radius:22px!important;padding:7px 2px!important;font-size:10px;line-height:1.15;font-weight:750}
+nav button svg{width:23px;height:23px;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+nav button.active{background:color-mix(in srgb,var(--accent) 14%,transparent)!important;color:var(--accent)!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 9%,transparent)}
+/* Workout session */
+.sticky{position:sticky!important;top:calc(env(safe-area-inset-top,0px) + 4px);padding:10px 11px!important;margin:0 -5px 12px;border:1px solid var(--glass-border)!important;border-radius:19px;background:var(--glass)!important;backdrop-filter:blur(32px) saturate(160%);-webkit-backdrop-filter:blur(32px) saturate(160%);box-shadow:0 10px 28px rgba(0,0,0,.08);z-index:25;gap:7px}
+.sticky .ghost{width:36px;height:36px;border-radius:12px!important;display:grid;place-items:center;flex:none;padding:3px!important;font-size:20px}
+.sticky-name{flex:1;min-width:0}
+.sticky-name h2{font-size:17px;letter-spacing:-.04em}
+.sticky-name p{font-size:11px;margin:2px 0}
+.quick-add{min-height:36px;white-space:nowrap;padding:8px 10px!important;font-size:12px!important;border-radius:11px!important}
+#clock{font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--muted);border-radius:11px;border:1px solid var(--line);background:var(--surface-2);padding:10px 7px;white-space:nowrap}
+.ex{margin:13px 0!important;padding:18px!important}
+.exhead{align-items:center}
+.exhead b{font-size:16px;font-weight:800;line-height:1.4}
+.exhead .meta{font-size:12px;margin-top:6px;line-height:1.5}
+.mini{font-size:12px;padding:9px 12px!important;border-radius:11px!important;background:var(--surface-2)!important;color:var(--text)!important;border:1px solid var(--line)!important}
+.last{font-size:12px;border:1px solid var(--line)!important;border-radius:12px!important;padding:11px 13px!important;margin:13px 0!important;background:var(--surface-deep)!important;color:var(--muted)!important;line-height:1.5}
+.workout-set-headers{letter-spacing:.02em;text-transform:uppercase}
+.set{gap:6px;grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr) 40px;margin:9px 0}
+.set span{font-size:12px;font-weight:800;color:var(--muted)}
+.set input{height:43px;border:1px solid var(--line)!important;border-radius:11px!important;background:var(--surface-deep)!important;font-size:15px;font-weight:750;padding:6px 4px!important;font-variant-numeric:tabular-nums}
+.set .ok{min-width:40px;height:43px;border-radius:11px!important;border:1px solid var(--line)!important;background:var(--surface-2)!important;color:var(--muted)!important;font-size:16px;padding:0!important;transition:background .17s}
+.set .ok.done{background:var(--accent)!important;color:var(--accent-text)!important;border-color:var(--accent)!important;box-shadow:0 4px 12px rgba(50,112,205,.13)}
+.exactions{gap:8px;margin-top:14px}
+.delete-workout-ex{margin-left:auto;color:var(--danger)!important;border-color:color-mix(in srgb,var(--danger) 28%,transparent)!important;background:transparent!important}
+.workout-add-card{border-style:dashed!important;border-width:1.5px!important}
+#finish{margin-top:8px;font-weight:800}
+#workout #finish{margin-bottom:120px}
+/* Session history + progress */
+.history-overview{gap:10px}
+.history-overview .overview-item{border-radius:20px;background:var(--surface);box-shadow:var(--shadow);padding:15px 12px}
+.overview-label{font-size:11px}
+.overview-value{font-size:23px;letter-spacing:-.05em}
+.history-progress h3{font-size:18px}
+.history-progress select{background:var(--surface-2);border-radius:13px;padding:12px 14px}
+.metric-switch,.routine-filter{background:var(--surface-2);border-radius:14px;padding:4px;gap:3px}
+.metric-switch button,.routine-filter button{border-radius:11px!important;border:0!important;background:transparent!important;padding:11px 5px!important;color:var(--muted)!important}
+.metric-switch button.active,.routine-filter button.active{background:var(--surface)!important;color:var(--text)!important;box-shadow:0 2px 7px rgba(0,0,0,.09)}
+.history-session{border-radius:22px;background:var(--surface);box-shadow:var(--shadow);margin:12px 0}
+.history-session summary{padding:17px 19px}
+.history-session-title{font-size:17px;font-weight:850}
+.history-session-inner{padding:14px 18px 18px}
+.history-metric{border-radius:14px;background:var(--surface-deep);padding:12px 6px}
+.history-chip{background:var(--surface-2);border-color:transparent}
+.history-exercise-name{font-weight:800}
+.history-exercise{padding:16px 0}
+/* Forms / settings */
+#settings>.card h3,#body .card h3{font-size:18px;font-weight:800;margin-bottom:5px}
+.field-description{margin:3px 0 14px;font-size:12px;line-height:1.5;color:var(--muted)}
+.theme-picker,.editor-tabs{background:var(--surface-2);padding:4px;gap:4px;border-radius:15px;margin-top:14px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.theme-btn,.edit-tab{border:0!important;background:transparent!important;border-radius:12px!important;padding:12px 5px!important;color:var(--muted)!important;font-size:12px!important}
+.theme-btn.active,.edit-tab.active{background:var(--surface)!important;color:var(--text)!important;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.pick{border:1px solid var(--line)!important;background:var(--surface-2)!important;text-align:left;border-radius:14px!important;padding:13px 15px!important;color:var(--text)!important}
+.pick:active,.mini:active,.theme-btn:active{transform:scale(.985)}
+.editor-item{padding:16px 0!important;gap:12px;align-items:center}
+.editor-main b{font-size:14px;line-height:1.3}
+.editor-actions button{padding:9px 6px!important;border-radius:10px!important}
+.drag-handle{min-width:42px;border:1px solid var(--line)!important;background:var(--surface-2)!important;border-radius:12px!important;color:var(--muted)!important}
+.editor-edit input{background:var(--surface-deep)!important;border-radius:10px!important;min-width:0}
+.file{background:var(--surface-2)!important;border-radius:14px!important}
+/* iOS sheet treatment for destructive confirmation */
+.workout-delete-overlay{z-index:200;background:rgba(4,7,15,.56);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.workout-delete-dialog{border-radius:28px;background:var(--surface);box-shadow:0 24px 80px rgba(0,0,0,.28);padding:24px}
+.delete-option{border-radius:15px;background:var(--surface-deep)}
+.delete-confirm{border-radius:15px!important;background:var(--danger)!important;color:#fff!important}
+/* Rest timer */
+.rest{z-index:90;bottom:calc(91px + env(safe-area-inset-bottom,0px));width:min(520px,calc(100% - 32px));background:var(--glass)!important;backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);border:1px solid var(--glass-border)!important;border-radius:21px!important;padding:13px 16px!important;box-shadow:0 12px 28px rgba(0,0,0,.17)}
+.rest b{font-size:23px;letter-spacing:-.05em;font-variant-numeric:tabular-nums;margin-left:4px}
+.rest button{padding:9px 10px!important;border-radius:10px!important}
+.toast{z-index:220;border-radius:15px!important;padding:13px 18px!important;box-shadow:var(--shadow)}
+button, .file {cursor:pointer;transition:background-color .16s ease,color .16s ease,transform .14s ease}
+button:focus-visible,.file:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(max-width:490px){
+  .app{padding-left:16px;padding-right:16px}
+  .home-intro h2,.screen-title,.title h2{font-size:31px}
+  .card{padding:17px!important}
+  .hero.card{padding:22px!important}
+  .history-overview{gap:7px}
+  .history-overview .overview-item{padding:12px 8px}
+  .overview-value{font-size:19px}
+  .editor-edit{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .theme-picker{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .two.metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .stat-reading strong{font-size:29px}
+  .workout-delete-overlay{align-items:flex-end;padding:0}
+  .workout-delete-dialog{max-width:none;width:100%;border-radius:30px 30px 0 0;padding:28px 20px calc(22px + env(safe-area-inset-bottom,0px));border-bottom:0}
+  .workout-delete-dialog:before{content:"";display:block;width:38px;height:5px;border-radius:99px;background:var(--muted);opacity:.45;margin:-13px auto 22px}
+  .set{grid-template-columns:25px minmax(0,1fr) minmax(0,1fr) minmax(0,.77fr) 38px;gap:5px}
+  .set .ok{min-width:38px}
+  .sticky{margin:0 -4px 12px}
+  .sticky-name h2{font-size:15px}
+  .sticky-name p{font-size:10px}
+  #clock{font-size:11px;padding:10px 6px}
+  .quick-add{font-size:11px!important;padding:7px 8px!important}
+}
+@media(max-width:365px){
+  .app{padding-left:12px;padding-right:12px}
+  .card{padding:15px!important}
+  .hero.card{padding:20px!important}
+  .hero h2{font-size:31px}
+  .sticky .ghost{width:31px}
+  .quick-add{padding:6px!important}
+  #clock{padding:9px 4px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+/* v9 — native Apple-style typography, no redistributed/hosted font files.
+   On iPhone/iPad -apple-system resolves to the installed Apple system UI font,
+   with Korean glyphs provided by the platform's Korean font fallback. */
+:root {
+  --font-ios:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+}
+html,body,button,input,textarea,select,option,.file {
+  font-family:var(--font-ios)!important;
+}
+html {
+  -webkit-text-size-adjust:100%;
+  text-rendering:optimizeLegibility;
+}
+body {
+  font-size:15px;
+  font-weight:400;
+  line-height:1.5;
+  letter-spacing:-.012em;
+  -webkit-font-smoothing:antialiased;
+  font-synthesis:none;
+}
+/* Native iOS hierarchy: large titles, semibold sections, comfortable Korean body text. */
+.app-header h1 {
+  font-size:21px;
+  font-weight:700;
+  letter-spacing:-.023em;
+  line-height:1.26;
+}
+.home-intro h2,.screen-title,.title h2 {
+  font-size:32px;
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-.03em;
+}
+.hero h2 {
+  font-weight:700;
+  letter-spacing:-.035em;
+  line-height:1.13;
+}
+.section-heading h3,.recent-card h3,#settings>.card h3,#body .card h3,.history-progress h3 {
+  font-weight:700;
+  letter-spacing:-.022em;
+}
+.exhead b,.history-session-title,.history-exercise-name,.editor-main b,.history-exercise-name {
+  font-weight:650;
+  letter-spacing:-.012em;
+  line-height:1.36;
+}
+.stat-reading strong,.overview-value,.history-metric strong {
+  font-weight:700;
+  letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"tnum" 1;
+}
+/* Distinguish measurement numbers from text: stable, right-aligned numeric fields. */
+#clock,#restTime,.set input,.history-set-grid,.history-summary-metrics,.stat-reading,
+.history-chip,.history-metric,.date-pill,.history-summary-date {
+  font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"tnum" 1;
+}
+input[type="number"],.set input {
+  letter-spacing:0;
+  font-weight:600;
+}
+/* More readable supporting text; do not over-tighten Korean glyphs. */
+.meta,.last,.field-description,.screen-subtitle,.home-intro p,.history-note {
+  font-weight:400;
+  letter-spacing:-.006em;
+  line-height:1.55;
+}
+.home-intro p,.screen-subtitle,.field-description {font-size:13px}
+.stat-label,.condition-card label,.history-summary-date {font-weight:500}
+/* UI actions: native-style medium / semibold rather than over-bold. */
+button,.file {font-weight:600;letter-spacing:-.006em}
+.primary,.quick-add,#finish,.mini,.pick,.theme-btn,.edit-tab,
+.editor-actions button,.rest button,.history-session-actions button {
+  font-weight:600!important;
+}
+nav button {
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:-.006em;
+}
+.app-header small,.overline,.section-eyebrow,.hero-kicker,.page-overline {
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.075em!important;
+}
+.sticky-name h2 {font-weight:700;letter-spacing:-.02em}
+.set span,.history-set-grid.header,.overview-label {font-weight:500;letter-spacing:0}
+.toast {font-weight:500}
+/* Respect user's iOS text-size and avoid clipping on very small screens. */
+@media(max-width:490px) {
+  .home-intro h2,.screen-title,.title h2 {font-size:31px}
+  .hero h2 {font-size:35px}
+  .stat-reading strong {font-size:29px}
+}
+@media(max-width:365px) {
+  .hero h2 {font-size:30px}
+  .home-intro h2,.screen-title,.title h2 {font-size:28px}
+}
